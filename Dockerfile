@@ -31,7 +31,10 @@ macOS Mojave 10.14.6: \
 This is problematic for some of the problem sets in computer architecture. \
 The seccomp can be changed in the docker run command (--security-opt seccomp=unconfined) but if would be nice if this could \
 be changed when building the image. \
-(https://stackoverflow.com/questions/35860527/warning-error-disabling-address-space-randomization-operation-not-permitted)."
+(https://stackoverflow.com/questions/35860527/warning-error-disabling-address-space-randomization-operation-not-permitted). \
+* Starting with v3.0.0 of Docker desktop, an error is reported when trying to share folders between host and container. \
+The current workaround is to disable the gRPC FUSE under experimental options. \
+(https://github.com/docker/for-mac/issues/5115)."
 
 
 # Modfy the pacman.conf so allow extractions of all packages.
