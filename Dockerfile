@@ -24,7 +24,7 @@ make (not strictly necessary for 202), \
 python-pip (only needed if using 'gef' - the enhanced gdb), \
 'gef' is installed and the source is added - commented - to '.gdbinit'. To fully install, uncomment."\
       tested_with="\
-macOS Mojave 10.14.6" \
+macOS Mojave 10.14.6 - Docker Desktop 3.0.1" \
       issues="\
 macOS Mojave 10.14.6: \
 * Running in docker currently prevents gdb from disabling address space randomization. \
@@ -32,9 +32,11 @@ This is problematic for some of the problem sets in computer architecture. \
 The seccomp can be changed in the docker run command (--security-opt seccomp=unconfined) but if would be nice if this could \
 be changed when building the image. \
 (https://stackoverflow.com/questions/35860527/warning-error-disabling-address-space-randomization-operation-not-permitted). \
-* Starting with v3.0.0 of Docker desktop, an error is reported when trying to share folders between host and container. \
+* Starting with Docker desktop v3.0.0, an error is reported when trying to share folders between host and container. \
 The current workaround is to disable the gRPC FUSE under experimental options. \
-(https://github.com/docker/for-mac/issues/5115)."
+(https://github.com/docker/for-mac/issues/5115)."\
+      log="\
+2020-12-13 - Initial release (1.0a). Still undergoing testing.""
 
 
 # Modfy the pacman.conf so allow extractions of all packages.
@@ -42,7 +44,7 @@ The current workaround is to disable the gRPC FUSE under experimental options. \
 RUN sed -i '/NoExtract/d' /etc/pacman.conf \
     && pacman --noconfirm -Syyu \
     && pacman --noconfirm -S arm-none-eabi-gcc gcc gdb vim sudo man-db man-pages make python-pip \
-    && mandb && ln -s /usr/bin/vim /usr/bin/vi 
+    && ln -s /usr/bin/vim /usr/bin/vi && mandb
 
 # Add architect user and allow it to sudo
 RUN useradd -m -G wheel architect \
