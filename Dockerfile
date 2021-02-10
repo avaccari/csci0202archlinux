@@ -36,7 +36,7 @@ be changed when building the image. \
 The current workaround is to disable the gRPC FUSE under experimental options. \
 (https://github.com/docker/for-mac/issues/5115)."\
       log="\
-2020-12-13 - Initial release (1.0a). Still undergoing testing.""
+2020-12-13 - Initial release (1.0a). Still undergoing testing."
 
 
 # Modfy the pacman.conf so allow extractions of all packages.
