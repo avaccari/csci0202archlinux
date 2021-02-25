@@ -5,8 +5,8 @@ FROM archlinux
 
 # A label
 LABEL description="Arch linux image for CSCI0202 - Computer Architecture at Middlebury College" \
-      version="1.0a" \
-      date="2020-12" \
+      version="1.1a" \
+      date="2021-01" \
       maintainer="Andrea Vaccari <avaccari _at_ middlebury _dot_ edu>" \
       features="\
 * 'pacman.conf' is modified to allow full extraction of all packaged. \
@@ -24,25 +24,33 @@ make (not strictly necessary for 202), \
 python-pip (only needed if using 'gef' - the enhanced gdb), \
 'gef' is installed and the source is added - commented - to '.gdbinit'. To fully install, uncomment."\
       tested_with="\
-macOS Mojave 10.14.6 - Docker Desktop 3.0.1" \
+macOS Mojave 10.14.6 - Docker Desktop 3.0.1, 3.1.0" \
       issues="\
 macOS Mojave 10.14.6: \
 * Running in docker currently prevents gdb from disabling address space randomization. \
 This is problematic for some of the problem sets in computer architecture. \
 The seccomp can be changed in the docker run command (--security-opt seccomp=unconfined) but if would be nice if this could \
 be changed when building the image. \
-(https://stackoverflow.com/questions/35860527/warning-error-disabling-address-space-randomization-operation-not-permitted). \
+(https://stackoverflow.com/a/46676907/2312671). \
 * Starting with Docker desktop v3.0.0, an error is reported when trying to share folders between host and container. \
 The current workaround is to disable the gRPC FUSE under experimental options. \
-(https://github.com/docker/for-mac/issues/5115)."\
+(https://github.com/docker/for-mac/issues/5115). \
+* A backward compatibility issue was introduced with the update to glibc 2.33. \
+Until the issue is fixed in the next release, this image uses a patched version of glibc \
+(https://serverfault.com/a/1053273/616627) "\
       log="\
+2021-02-25 - Added workaround for glibc 2.33 backward compatibility issue. \
 2020-12-13 - Initial release (1.0a). Still undergoing testing."
 
+# Workaround for glibc 2.33 backward compatibility
+RUN patched_glibc=glibc-linux4-2.33-4-x86_64.pkg.tar.zst && \
+    curl -LO "https://repo.archlinuxcn.org/x86_64/$patched_glibc" && \
+    bsdtar -C / -xvf "$patched_glibc"
 
 # Modfy the pacman.conf so allow extractions of all packages.
 # Force refresh the databases, update the system, install the required packages, and configure.
 RUN sed -i '/NoExtract/d' /etc/pacman.conf \
-    && pacman --noconfirm -Syyu \
+    && pacman --noconfirm -Syyu\
     && pacman --noconfirm -S arm-none-eabi-gcc gcc gdb vim sudo man-db man-pages make python-pip \
     && ln -s /usr/bin/vim /usr/bin/vi && mandb
 
