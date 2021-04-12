@@ -5,8 +5,8 @@ FROM archlinux
 
 # A label
 LABEL description="Arch linux image for CSCI0202 - Computer Architecture at Middlebury College" \
-      version="1.1a" \
-      date="2021-01" \
+      version="1.2a" \
+      date="2021-04" \
       maintainer="Andrea Vaccari <avaccari _at_ middlebury _dot_ edu>" \
       features="\
 * 'pacman.conf' is modified to allow full extraction of all packaged. \
@@ -18,13 +18,14 @@ arm-none-eabi-gcc, \
 gcc, \
 gdb, \
 vim (vi symlinks to vim), \
+diffutils, \
 sudo, \
 man-db and man-pages (the database is built when creating the image), \
 make (not strictly necessary for 202), \
 python-pip (only needed if using 'gef' - the enhanced gdb), \
 'gef' is installed and the source is added - commented - to '.gdbinit'. To fully install, uncomment."\
       tested_with="\
-macOS Mojave 10.14.6 - Docker Desktop 3.0.1, 3.1.0" \
+macOS Mojave 10.14.6 - Docker Desktop 3.0.1, 3.1.0, 3.2.2" \
       issues="\
 macOS Mojave 10.14.6: \
 * Running in docker currently prevents gdb from disabling address space randomization. \
@@ -39,7 +40,8 @@ The current workaround is to disable the gRPC FUSE under experimental options. \
 Until the issue is fixed in the next release, this image uses a patched version of glibc \
 (https://serverfault.com/a/1053273/616627) "\
       log="\
-2021-02-25 - Added workaround for glibc 2.33 backward compatibility issue. \
+2021-04-11 - Added diffutils to the pre-installed packages (1.2a). \
+2021-02-25 - Added workaround for glibc 2.33 backward compatibility issue (1.1a). \
 2020-12-13 - Initial release (1.0a). Still undergoing testing."
 
 # Workaround for glibc 2.33 backward compatibility
@@ -51,7 +53,7 @@ RUN patched_glibc=glibc-linux4-2.33-4-x86_64.pkg.tar.zst && \
 # Force refresh the databases, update the system, install the required packages, and configure.
 RUN sed -i '/NoExtract/d' /etc/pacman.conf \
     && pacman --noconfirm -Syyu\
-    && pacman --noconfirm -S arm-none-eabi-gcc gcc gdb vim sudo man-db man-pages make python-pip \
+    && pacman --noconfirm -S arm-none-eabi-gcc gcc gdb vim diffutils sudo man-db man-pages make python-pip \
     && ln -s /usr/bin/vim /usr/bin/vi && mandb
 
 # Add architect user and allow it to sudo

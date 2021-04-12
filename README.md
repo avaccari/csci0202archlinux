@@ -11,6 +11,7 @@ Arch linux image for CSCI0202 - Computer Architecture at Middlebury College
   - *gcc*
   - *gdb*
   - *vim* (vi symlinks to vim)
+  - *diffutils*
   - *sudo*
   - *man-db* and *man-pages* (the database is built when creating the image)
   - *make* (not strictly necessary for 202)
@@ -22,6 +23,7 @@ Arch linux image for CSCI0202 - Computer Architecture at Middlebury College
 | :---: | :---: |
 | 3.0.1 | :white_check_mark: |
 | 3.1.0 | :white_check_mark: |
+| 3.2.2 | :white_check_mark: |
 
 ## Issues
 ### macOS Mojave 10.14.6
@@ -30,5 +32,6 @@ Arch linux image for CSCI0202 - Computer Architecture at Middlebury College
 - A backward compatibility issue was introduced with the update to glibc 2.33. Until the issue is fixed in the next release, this image uses a patched version of glibc ([ref](https://serverfault.com/a/1053273/616627)). "
 
 ## Log
-2021-02-25 - Added workaround for glibc 2.33 backward compatibility issue.
-2020-12-13 - Initial release (1.0a). Still undergoing testing."
+2021-04-11 - Added _diffutils_ to the pre-installed packages (1.2a).\
+2021-02-25 - Added workaround for glibc 2.33 backward compatibility issue (1.1a).\
+2020-12-13 - Initial release (1.0a). Still undergoing testing.
